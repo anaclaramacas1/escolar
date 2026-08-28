@@ -1,0 +1,20 @@
+{
+  "name": "escolar",
+  "version": "1.0.0",
+  "description": "API de Gestão Escolar - cadastro e listagem de alunos com Node.js, Express e MongoDB",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "mongodb": "^6.9.0"
+  }
+}
