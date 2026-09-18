@@ -1,28 +1,33 @@
-import { MongoClient} from "mongodb";
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 
-const uri = process.env.MONGODB_URI;
+dotenv.config();
+
+const cliente = new MongoClient(process.env.MONGODB_URI);
+
 const nomeBanco = process.env.DB_NAME || "gestao_escolar";
 
 let banco;
 
 export async function conectarBanco() {
-    if (banco) {
-        return banco;
+
+    if (!banco) {
+
+        await cliente.connect();
+
+        banco = cliente.db(nomeBanco);
+
+        console.log("MongoDB conectado!");
+
     }
-    
-    const cliente = new MongoClient(uri);
-    await cliente.connect();
-
-    banco = cliente.db(nomeBanco);
-
-    console.log(`MongoDB conectado ao banco: ${nomeBanco}`)
 
     return banco;
 }
 
-export function obterBanco(){
-    if (!banco) {
-        throw new Error("Banco de dados ainda não foi conectado")
-    }
-    return banco;
+
+export async function colecaoAlunos() {
+
+    const db = await conectarBanco();
+
+    return db.collection("alunos");
 }
