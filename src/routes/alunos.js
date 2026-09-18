@@ -4,7 +4,6 @@ import { colecaoAlunos } from "../db.js";
 
 const router = express.Router();
 
-// GET /alunos
 router.get("/", async (req, res) => {
     try {
         const {
@@ -21,26 +20,22 @@ router.get("/", async (req, res) => {
         } = req.query;
 
         const filtro = {};
-
-        // Filtro por nome usando regex
+        
         if (nome) {
             filtro.nome = {
                 $regex: nome,
                 $options: "i"
             };
         }
-
-        // Filtro por curso
+        
         if (curso) {
             filtro.curso = curso;
         }
-
-        // Filtro por turma
+   
         if (turma) {
             filtro.turma = turma;
         }
 
-        // Idade mínima
         if (idadeMin) {
             filtro.idade = {
                 ...(filtro.idade || {}),
@@ -48,7 +43,6 @@ router.get("/", async (req, res) => {
             };
         }
 
-        // Idade máxima
         if (idadeMax) {
             filtro.idade = {
                 ...(filtro.idade || {}),
@@ -56,7 +50,6 @@ router.get("/", async (req, res) => {
             };
         }
 
-        // Filtro por situação
         if (ativo !== undefined) {
             if (ativo === "true") {
                 filtro.situacao = "ativo";
@@ -69,7 +62,6 @@ router.get("/", async (req, res) => {
             }
         }
 
-        // Projeção dos campos
         let projection = undefined;
 
         if (campos) {
@@ -82,12 +74,10 @@ router.get("/", async (req, res) => {
             });
         }
 
-        // Consulta no MongoDB
         let consulta = (await colecaoAlunos()).find(filtro, {
             projection: projection
         });
 
-        // Ordenação
         if (ordenarPor) {
             const ordem = direcao === "desc" ? -1 : 1;
 
@@ -96,7 +86,6 @@ router.get("/", async (req, res) => {
             });
         }
 
-        // Limite
         if (limite) {
             const numeroLimite = Number(limite);
 
@@ -122,7 +111,6 @@ router.get("/", async (req, res) => {
 });
 
 
-// GET /alunos/:id
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -149,7 +137,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-// POST /alunos
+
 router.post("/", async (req, res) => {
     try {
         const {
@@ -200,7 +188,6 @@ router.post("/", async (req, res) => {
 });
 
 
-// PUT /alunos/:id
 router.put("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -240,7 +227,7 @@ router.put("/:id", async (req, res) => {
 });
 
 
-// DELETE /alunos/:id
+
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params;

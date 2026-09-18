@@ -9,12 +9,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-
-// Permite receber JSON
 app.use(express.json());
 
-
-// Rota inicial
 app.get("/", (req, res) => {
 
     res.json({
@@ -23,12 +19,8 @@ app.get("/", (req, res) => {
 
 });
 
-
-// Rotas dos alunos
 app.use("/alunos", alunosRouter);
 
-
-// Iniciar servidor
 async function iniciarServidor() {
 
     try {
